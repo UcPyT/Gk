@@ -1,0 +1,26 @@
+-- TPS Street Soccer ULTIMATE GOD MODE Goalkeeper Script
+-- يجعل الحارس غير قابل للتجاوز، مع تأثير صد قوي يمنع الكرة من دفعه
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local ball = workspace:WaitForChild("Ball")
+local runService = game:GetService("RunService")
+local physicsService = game:GetService("PhysicsService")
+
+local reactionSpeed = 0 -- تصدي فوري بدون أي تأخير
+local reflectPower = 150 -- قوة الصد للكرة
+
+local function instaSave()
+    if ball and humanoidRootPart then
+        local direction = (ball.Position - humanoidRootPart.Position).unit
+        ball.Velocity = direction * -reflectPower -- يعكس اتجاه الكرة بقوة
+        ball.AssemblyLinearVelocity = direction * -reflectPower -- يمنع دفع الحارس
+    end
+end
+
+runService.Heartbeat:Connect(function()
+    if ball and ball.Velocity.magnitude > 0 then -- يصد أي حركة للكرة
+        instaSave()
+    end
+end)
