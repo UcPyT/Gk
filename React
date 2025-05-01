@@ -1,38 +1,44 @@
+print("[✅] السكربت يعمل وتم بدء التعديلات...")
 
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local ball = workspace:WaitForChild("TPSSystem"):WaitForChild("TPS")
+local playerName = "SA_BXL"
+local player = workspace:FindFirstChild(playerName)
+local head = player and player:FindFirstChild("Head")
+local torso = player and player:FindFirstChild("Torso")
+local leftArm = player and player:FindFirstChild("LeftArm")
+local rightArm = player and player:FindFirstChild("RightArm")
 
-local ohInstance1 = ball
-local ohString2 = "LovelyPeopleAroundMe"
-local ohString3 = "HopingForTheBest"
-
-local triggerDistance = 10 -- studs
-local canFire = true
-
-local function getHead()
-    local character = player.Character or player.CharacterAdded:Wait()
-    return character:WaitForChild("Head")
+if head then
+    head.CanCollide = false
+    head.CanQuery = false
+    head.CanTouch = true
+    head.Shape = Enum.PartType.Wedge
+    head.CustomPhysicalProperties = PhysicalProperties.new(1, 0.3, 0.5)
 end
 
-local head = getHead()
+if torso then
+    torso.CanCollide = false
+    torso.CanQuery = false
+    torso.CanTouch = true
+    torso.CustomPhysicalProperties = PhysicalProperties.new(1, 0.3, 0.5)
+end
 
--- Listen for respawns
-player.CharacterAdded:Connect(function()
-    head = getHead()
-end)
+if leftArm then
+    leftArm.CanCollide = false
+    leftArm.CanQuery = false
+    leftArm.CanTouch = true
+    leftArm.CustomPhysicalProperties = PhysicalProperties.new(1, 0.3, 0.5)
+end
 
--- Main loop
-while task.wait(0.01) do
-    if ball and ball:IsDescendantOf(workspace) and head then
-        local distance = (head.Position - ball.Position).Magnitude
-        if distance <= triggerDistance then
-            if canFire then
-                canFire = false
-                workspace.FE.Actions.Header:FireServer(ohInstance1, ohString2, ohString3)
-            end
-        else
-            canFire = true -- Reset once you're far enough away
-        end
-    end
+if rightArm then
+    rightArm.CanCollide = false
+    rightArm.CanQuery = false
+    rightArm.CanTouch = true
+    rightArm.CustomPhysicalProperties = PhysicalProperties.new(1, 0.3, 0.5)
+end
+
+local ball = workspace:FindFirstChild("TPSSystem") and workspace.TPSSystem:FindFirstChild("TPS")
+if ball then
+    ball.CanCollide = false
+    ball.CanQuery = false
+    ball.CanTouch = true
 end
